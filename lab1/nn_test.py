@@ -1,7 +1,7 @@
 '''Trains a simple deep NN on the Dogs vs Cats dataset.
 Gets to 60.2% test accuracy after 30 epochs
 (there is *a lot* of margin for parameter tuning).
-1.33 seconds per epoch on a Titan X GPU.
+1.33 seconds per epoch on a RTX 2018 Ti GPU.
 '''
 
 import numpy as np
@@ -25,24 +25,23 @@ def paths_list_from_directory(directory):
 
 
 def load_image(filename):
-    def load_image(filename):
 
-      # [1] Get the file category and make the conversion. If 'dog' assign it integer 1, if 'cat' assign it integer 0.
 
-      # [2] Load the image in greyscale with opencv.
+    # [1] Get the file category and make the conversion. If 'dog' assign it integer 1, if 'cat' assign it integer 0.
 
-      height, width = image.shape[:2]
-      crop_dim = None
+    # [2] Load the image in greyscale with opencv.
 
-      # [3] Find the dimension that is the smallest between the height and the width and assign it to the crop_drim variable.
+    height, width = image.shape[:2]
+    crop_dim = None
 
-      # [4] Crop the centre of the image based on the crop_dim dimension for both the height and width.
+    # [3] Find the dimension that is the smallest between the height and the width and assign it to the crop_drim variable.
 
-      # [5] Resize the image to 48 x 48 and divide it with 255.0 to normalise it to floating point format.
+    # [4] Crop the centre of the image based on the crop_dim dimension for both the height and width.
 
-      return (image,label)
+    # [5] Resize the image to 48 x 48 and divide it with 255.0 to normalise it to floating point format.
 
-    return (image, label)
+    return (image,label)
+
 
 def DataGenerator(img_addrs, img_labels, batch_size, num_classes):
   while 1:

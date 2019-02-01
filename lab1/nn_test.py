@@ -1,7 +1,7 @@
 '''Trains a simple deep NN on the Dogs vs Cats dataset.
 Gets to 60.2% test accuracy after 30 epochs
 (there is *a lot* of margin for parameter tuning).
-1.33 seconds per epoch on a RTX 2018 Ti GPU.
+1.33 seconds per epoch on a Titan X GPU.
 '''
 
 import numpy as np

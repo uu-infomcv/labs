@@ -110,11 +110,11 @@ The shape parameter should be a tuple of integers that include the shape of the 
 In this case, our input size is a vector of size 2304.
 
 #### Hidden layer(s)
-The `Dense` layers are normal neurones. They essentially implement the operation `y = activation(dot(x, kernel) + bias)` where `activation` is the non-linearity that can be passed as an argument. `kernel` is the weight matrix corresponding to the layer and `bias` is the bias vector of the layer. You also need to specify the number of neurones that the network will include.
+The `Dense` layers are normal neurones. They essentially implement the operation `y = activation(dot(x, kernel) + bias)` where `activation` is the non-linearity that can be passed as an argument. `kernel` is the weight matrix corresponding to the layer and `bias` is the bias vector of the layer. You also need to specify the number of neurones that the network will include. In this example, we use 254 neurones per layer.
 
 ```
-x = Dense(64, activation='relu')(inputs)
-x = Dense(64, activation='relu')(x)
+x = Dense(254)(x)
+x = ReLU()(x)#Non-linearily
 ```
 *Since you will be using images, you should now that in the case the shape of the layer input is greater than 2, it will be flatten to a vector*
 
@@ -124,9 +124,9 @@ x = Dense(64, activation='relu')(x)
 
 Activations should follow directly after each of your layers. The alternative is to also define them in the `keras.Layer` that you are using as a parameter. All core layers also include an activation as an optional parameter.
 ```
-x = Dense(64, activation='relu')(x)
+x = Dense(254, activation='relu')(x)
 # OR
-x = Dense(64)(x)
+x = Dense(254)(x)
 x = ReLU()(x)
 ```
 #### Output layer
@@ -135,7 +135,7 @@ In contrast with the `Input` layer, the output is defined by a normal `Dense` la
 
 To build a model you will need to include all layers required in the computation of `predictions` given `inputs` (the `Model` class is specific to the functional API)
 ```
-predictions = Dense(2, activation='linear')(x)
+predictions = Dense(2, activation='softmax')(x)
 model = Model(input=inputs, output=predictions)
 ```
 
@@ -158,7 +158,9 @@ Given that you have successfully created your model, you will then need to compi
 - An optimiser (i.e. learning algorithm).
 
 ```
-model.compile(loss='mean_squared_error', optimizer=sgd)
+model.compile(optimizer=sgd,
+              loss='categorical_crossentropy',
+              metrics=['accuracy'])
 ```
 After compiling, you should have a configured neural network to deploy on your dataset.
 
@@ -173,7 +175,7 @@ The `.fit()` method trains the network for a given number of epochs. You will al
 The `.evaluate()` will give a loss value & metrics score on validation data. In both methods you can specify the verbosity.
 
 ```
-history = model.fit(X_train, Y_train,batch_size=batch_size,epochs=nb_epochs, validation_data=(X_val,Y_val))
+history = model.fit(X_train, Y_train,batch_size=batch_size, nb_epoch=nb_epoch,verbose=1, validation_data=(X_val, Y_val))
 score = model.evaluate(X_val, Y_val, verbose=0)
 ```
 
@@ -276,5 +278,7 @@ def DataGenerator(img_addrs, img_labels, batch_size, num_classes):
       #   - set X,Y to []
       #   - use python garbage collector
 ```
+
+You can then use the `.fit_generator()` method to use your `DataGenerator`. It is important to note that you will now be required to enter the number of steps manually as an additional method parameter.
 
 (Optional) optimise your code further without including a `count` and only rely on `i`.

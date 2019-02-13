@@ -35,7 +35,7 @@ This creates a convolution kernel that convolves the inputs to produce a tensor 
 * **strides**: Similarly the stride number can be an int/tuple if you would like to change the rate with which regions are convolved.
 * **padding**: This specifies the zero padding to be done in order to keep or reduce the dimensionality of the output (compared to the input). It can take either of two values: `"valid"` if no padding is to be added or `"same"` to preserve the dimensions.
 
-It should be noted that there is an option to adjust the way convolutions are performed based on the input shape. For example if the colour channels are the first dimension in the input (e.g. 3x48x48) then you can adjust the **data_format** argument in the function with the `"channels_first"` value. - keep in mind that TensorFlow uses `"channels_last"` be default.
+It should be noted that there is an option to adjust the way convolutions are performed based on the input shape. For example if the colour channels are the first dimension in the input (e.g. 3x48x48) then you can adjust the **data_format** argument in the function with the `"channels_first"` value. - keep in mind that TensorFlow uses `"channels_last"` by default.
 
 The output of the function is a 4D tensor of shape `(batch_size, width, height, filters)`
 
@@ -118,7 +118,7 @@ As of the new version of Keras (2.0) when creating a custom layer, only three me
 * `call(x)`: The main logic and the overall functions of the layer should be written within this function. The passed argument should be the input tensor.
 * `compute_output_shape(input_shape)`: This is used in the cases where the layer does indeed modify the dimensions of the input (e.g. as done in pooling or convolutions). The way the shape is transformed should be declared here.
 
-Open the `layers.py` file. Based on the ShakeShake paper (link TODO) we will attempt to create a much simpler version of the regularisation that does not include residual connections.
+Open the `layers.py` file. Based on the ShakeShake paper, we will attempt to create a much simpler version of the regularisation that does not include residual connections.
 
 Have a look at the class named `ShakeShake` and try to understand what each function does based on the requirements described.
 

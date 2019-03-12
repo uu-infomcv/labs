@@ -116,7 +116,7 @@ The `Dense` layers are normal neurones. They essentially implement the operation
 x = Dense(254)(x)
 x = ReLU()(x)#Non-linearily
 ```
-*Since you will be using images, you should now that in the case the shape of the layer input is greater than 2, it will be flatten to a vector*
+*Since you will be using images, you should note that in the case which shape of the layer input is greater than 2, it will be flatten to a vector*
 
 **So it is important to know EXACTLY the shapes of your tensors at each step**
 
@@ -145,7 +145,7 @@ The optimiser is the backbone of every learning algorithm. It is the mathematica
 
 ![](https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/06100746/grad.png)
 
-In Keras you can call an optimiser based on it's name along side it's (optional) parameters.
+In Keras you can call an optimiser based on its name along side its (optional) parameters.
 
 ```
 sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
@@ -170,9 +170,9 @@ Before training the model, make use of the `model.summary()` method to visualise
 
 It is very important to be sure that the network architecture is correct before attempting to train it.
 
-The `.fit()` method trains the network for a given number of epochs. You will also need to specify the batch size (i.e. the number of examples that the network is trained with -forward pass, before an update - backpropagation). If `validation_data` is given, the method will also do a validation at the end of every epoch.
+The `.fit()` method trains the network for a given number of epochs. You will also need to specify the batch size (i.e. the number of examples that the network is trained with -> forward pass, before an update -> backpropagation). If `validation_data` is given, the method will also do a validation at the end of every epoch.
 
-The `.evaluate()` will give a loss value & metrics score on validation data. In both methods you can specify the verbosity.
+The `.evaluate()` will give a loss value & metrics score on validation data. In both methods, you can specify the verbosity.
 
 ```
 history = model.fit(X_train, Y_train,batch_size=batch_size, nb_epoch=nb_epoch,verbose=1, validation_data=(X_val, Y_val))
@@ -218,7 +218,7 @@ Also note that, when loading weights from previous models, you can also make use
 
 **Keras Callbacks**
 
-Keras also allows for callback functions to be used at each step of the training process. You can use callbacks to get a view on internal states and statistics of the model during training or simply store the model to a directory.
+Keras also allows for callback functions to be used at each step of the training process. You can use callbacks to get a view on internal states and statistics of the model during training, or simply store the model to a directory.
 
 It is extremely usefull and highly recommended to used the `ModelCheckpoint()` function when training models. This will save your model (or just the weights) at the end of each epoch in an HDF5 file.
 

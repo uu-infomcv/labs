@@ -92,7 +92,7 @@ def load_image(filename):
 
 #### Creating a Keras model
 
- Now have a look at the `cnn_model` function as written in the script. When building a model you can choose between two APIs:
+When building a model you can choose between two APIs:
  - [Sequential](https://keras.io/models/sequential/), which is a 'linear stack of layers' with the model being initialised with the `Sequential()` function. To then add layers, you can invoke the `.add()` method of the Model class. You can specify the input shape (i.e. the shape of your data similarly as the `numpy.shape` function) by using the `inut_shape` parameter in your first layer.
  - [Functional](https://keras.io/getting-started/functional-api-guide/), which is designed for more complex models as it provides greater flexibilty than the `Sequential` API. In this case no initial API declaration is needed and layers are link by also passing them to the following layers (there will be more examples on this).
 

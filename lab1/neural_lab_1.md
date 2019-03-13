@@ -4,7 +4,7 @@
 
 * The aim of this session is to provide you with a practical understanding of neural networks
 
-The main tasks are listed as followed:
+The main tasks are listed as follows:
 
 - [ ] Start with the `Keras` Deep Learning library and build upon given code.
 
@@ -12,18 +12,18 @@ The main tasks are listed as followed:
 
 - [ ] Learn how to save models in JSON format and how to save model weights in .h5 files.
 
-- [ ] Create an `DataGenerator` function that can take a list (or array) of files and return the loaded files in array types alongside their labels.
+- [ ] Create a `DataGenerator` function that takes a list (or array) of files and returns the loaded files in array types alongside their labels.
 
-### A few works about Keras
+### A few Words about Keras
 
 ![](https://s3.amazonaws.com/keras.io/img/keras-logo-2018-large-1200.png)
 
-Keras is not a spandalone python library but rather an API running on top of other Deep Learning frameworks. In this course you will be using a `Tensorflow` backend. - In case you are unsure about the backend that you are using after you downloaded all the required libraries, you should locate the (hidden) keras.json file in your home directory:
+Keras is not a stand-alone Python library but rather an API running on top of other Deep Learning frameworks. In this course you will be using a `Tensorflow` backend. - In case you are unsure about the backend that you are using after you downloaded all the required libraries, you should locate the (hidden) keras.json file in your home directory:
 ```
 $HOME/.keras/keras.json
 ```
 
-You can then accessing it with your favourite editor should have default values as such:
+You can then access it with your favourite editor and it should have default values such as:
 ```
 {
     "image_data_format": "channels_last",
@@ -33,7 +33,7 @@ You can then accessing it with your favourite editor should have default values 
 }
 ```
 The most important ones are:
-- the `image_data_format` which specify the format that you will be using when processing data. You can choose between having the RGB channels first or last.
+- the `image_data_format` which specifies the format that you will be using when processing data. You can choose between having the RGB channels first or last.
 - `floatx` which is the default variable type that data will take within your network. **If along the way you have memory problems, you can decrease the floating point to e.g. 16-bits and half the memory requirements.**
 - The backend variable `backend` which should be tensorflow.
 
@@ -52,24 +52,22 @@ $ pip install Pillow scikit-image,
 
 ### The Kaggle Pets Dataset
 
- For this lab all your tasks will be based on the simple two-class dataset Dogs vs Cats. The dataset can be downloaded from [this link](https://www.microsoft.com/en-us/download/details.aspx?id=54765). The training archive contains 25,000 images.
+ For this practical session, all your tasks will be based on the simple two-class dataset Dogs vs Cats. The dataset can be downloaded from [this link](https://www.microsoft.com/en-us/download/details.aspx?id=54765). The training archive contains 25,000 images.
 
  ! There may be some corrupted files, so do take a couple of minutes and discard any unusable images !
 
- Because we are interested on the inner-workings of neural networks, it is suggested to resize the images to size 48x48 (more about image processing will be explained later in the lab).
+ Because we are interested on the inner-workings of neural networks, it is suggested to resize the images to size 48x48 (more about image processing will be explained later in this session).
 
 
- ### Getting started
+ ### Getting Started
 
- Open the python file `nn_test.py` and have a look at the first few lines of code.
+ Open the Python file `nn_test.py` and have a look at the first few lines of code.
 
  #### Preparing and processing training data
 
- Start by completing the missing code in function `paths_list_from_directory(directory)`. In order to properly evaluate any models we will also need an evaluation set. Therefore, after you finshed loading the filepaths, make use of `scikit-learn` [train_test_split function](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) and return your list of trainig and validation files
+ Start by completing the missing code in function `paths_list_from_directory(directory)`. In order to properly evaluate the performance of trained models, we will also need an evaluation set. Therefore, after you finished loading the filepaths, make use of `scikit-learn` [train_test_split function](https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html) and return your list of training and validation files
 
-
-
- Moving forward, we will require to define a function to load the images. Because the dataset is (relatively) small, we will load them directly in a list as `numpy` arrays. So your function should look like this:
+ Moving forward, we will be required to define a function to load the images. Because the dataset is (relatively) small, we will load them directly in a list as `numpy` arrays. So your function should look like this:
  ```
 def load_image(filename):
 
@@ -84,43 +82,43 @@ def load_image(filename):
 
   # [4] Crop the centre of the image based on the crop_dim dimension for both the height and width.
 
-  # [5] Resize the image to 48 x 48 and divide it with 255.0 to normalise it to floating point format.
+  # [5] Resize the image to 48 x 48 and divide it by 255.0 to normalise it to floating point format.
 
   return (image,label)
 
  ```
 
-#### Creating a Keras model
+#### Creating a Keras Model
 
-When building a model you can choose between two APIs:
- - [Sequential](https://keras.io/models/sequential/), which is a 'linear stack of layers' with the model being initialised with the `Sequential()` function. To then add layers, you can invoke the `.add()` method of the Model class. You can specify the input shape (i.e. the shape of your data similarly as the `numpy.shape` function) by using the `inut_shape` parameter in your first layer.
- - [Functional](https://keras.io/getting-started/functional-api-guide/), which is designed for more complex models as it provides greater flexibilty than the `Sequential` API. In this case no initial API declaration is needed and layers are link by also passing them to the following layers (there will be more examples on this).
+When building a model, you can choose between two APIs:
+ - [Sequential](https://keras.io/models/sequential/), which is a 'linear stack of layers' with the model being initialised with the `Sequential()` function. To then add layers, you can invoke the `.add()` method of the Model class. You can specify the input shape (i.e. the shape of your data similarly as the `numpy.shape` function) by using the `input_shape` parameter in your first layer.
+ - [Functional](https://keras.io/getting-started/functional-api-guide/), which is designed for more complex models as it provides greater flexibilty than the `Sequential` API. In this case no initial API declaration is needed and layers are linked by also passing them to the following layers (there will be more examples on this).
 
- We will use the `Functional` API as it will also be more useful for your assignments.
+ We will use the `Functional` API as it will also be more useful for the assignments.
 
-#### Input layer
+#### Input Layer
 `Input()` is used to instantiate a Keras tensor.
 
 Keras tensors are the essential blocks when building neural models that are simply defined by the first (input) and last (output) tensor of the model.
 ```
 inputs = Input(shape=(2304,))
 ```
-The shape parameter should be a tuple of integers that include the shape of the data (e.g. width, height, # colour channels) but **does not** include the batch size.
+The shape parameter should be a tuple of integers that includes the shape of the data (e.g. width, height, # colour channels) but **does not** include the batch size.
 
-In this case, our input size is a vector of size 2304.
+In this case, our input size is a vector of size 2304 (48 x 48).
 
-#### Hidden layer(s)
+#### Hidden Layer(s)
 The `Dense` layers are normal neurones. They essentially implement the operation `y = activation(dot(x, kernel) + bias)` where `activation` is the non-linearity that can be passed as an argument. `kernel` is the weight matrix corresponding to the layer and `bias` is the bias vector of the layer. You also need to specify the number of neurones that the network will include. In this example, we use 254 neurones per layer.
 
 ```
 x = Dense(254)(x)
 x = ReLU()(x)#Non-linearily
 ```
-*Since you will be using images, you should note that in the case which shape of the layer input is greater than 2, it will be flatten to a vector*
+*Since you will be using images, you should note that in the case that the shape of the layer input is greater than 2, it will be flattened to a vector*
 
 **So it is important to know EXACTLY the shapes of your tensors at each step**
 
-#### Activation functions
+#### Activation Functions
 
 Activations should follow directly after each of your layers. The alternative is to also define them in the `keras.Layer` that you are using as a parameter. All core layers also include an activation as an optional parameter.
 ```
@@ -129,11 +127,11 @@ x = Dense(254, activation='relu')(x)
 x = Dense(254)(x)
 x = ReLU()(x)
 ```
-#### Output layer
+#### Output Layer
 
 In contrast with the `Input` layer, the output is defined by a normal `Dense` layer. Do keep in mind that each neurone in the output layer should correspond to a specific class so `# classes = # output neurones`.
 
-To build a model you will need to include all layers required in the computation of `predictions` given `inputs` (the `Model` class is specific to the functional API)
+To build a model, you will need to include all layers required in the computation of `predictions` given `inputs` (the `Model` class is specific to the Functional API)
 ```
 predictions = Dense(2, activation='softmax')(x)
 model = Model(input=inputs, output=predictions)
@@ -141,20 +139,20 @@ model = Model(input=inputs, output=predictions)
 
 #### Learning Algorithm
 
-The optimiser is the backbone of every learning algorithm. It is the mathematical function based on which updates will be performed towards achieving an optimal model (by progressively minimising the objective function).
+The optimiser is the backbone of every learning algorithm. It is the mathematical function based on which updates will be performed towards achieving an optimal model (by progressively minimising the objective or loss function).
 
 ![](https://s3-ap-south-1.amazonaws.com/av-blog-media/wp-content/uploads/2017/03/06100746/grad.png)
 
-In Keras you can call an optimiser based on its name along side its (optional) parameters.
+In Keras you can call an optimiser based on its name alongside its (optional) parameters.
 
 ```
 sgd = optimizers.SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
 ```
 
-#### Compile the model
+#### Compile the Model
 
 Given that you have successfully created your model, you will then need to compile it with the `compile` method. The method takes two arguments:
-- A loss function which is basically your feedback method on the model's performance (we say this in an example at the lecture).
+- A loss function which is basically your feedback method on the model's performance.
 - An optimiser (i.e. learning algorithm).
 
 ```
@@ -166,13 +164,13 @@ After compiling, you should have a configured neural network to deploy on your d
 
 #### Training on data
 
-Before training the model, make use of the `model.summary()` method to visualise the network and get some insights on the shape, parameters etc.
+Before training the model, make use of the `model.summary()` method to visualise the network and get some insights on its shape, parameters etc.
 
 It is very important to be sure that the network architecture is correct before attempting to train it.
 
 The `.fit()` method trains the network for a given number of epochs. You will also need to specify the batch size (i.e. the number of examples that the network is trained with -> forward pass, before an update -> backpropagation). If `validation_data` is given, the method will also do a validation at the end of every epoch.
 
-The `.evaluate()` will give a loss value & metrics score on validation data. In both methods, you can specify the verbosity.
+The `.evaluate()` will give a loss value and metrics score on the validation data. In both methods, you can specify the verbosity.
 
 ```
 history = model.fit(X_train, Y_train,batch_size=batch_size, nb_epoch=nb_epoch,verbose=1, validation_data=(X_val, Y_val))
@@ -189,11 +187,11 @@ Since there is a lot of margin for improving the network, try the following and 
 
 - [ ] Modify the code to add one more Dense layer of 64 `relu` units and record the score.
 - [ ] Modify the code so that you are able to add as many `Dense` layers of `relu` units as you want, controlled by a variable called `n_hidden_layers`.
-- [ ] Add a `Dropout` layer with strength of 0.5 (This basically only considers half the inputs that its given). We will also go back to Dropout and why it is useful later in the course.
+- [ ] Add a `Dropout` layer with strength of 0.5 (This basically only considers half the inputs that it's given). We will also go back to Dropout and why it is useful later in the course.
 - [ ] (Optional) play around with different scores and optimise on the number of layers, trying to find the optimal hyperparameters.
 
 
-### Saving/Loading model/weights
+### Saving/Loading model/Weights
 
 It is **VERY** important that you do not discard your model once you finish training. In order to present your results, you will need to have a copy of the learned weights that you obtained through training.
 
@@ -218,9 +216,9 @@ Also note that, when loading weights from previous models, you can also make use
 
 **Keras Callbacks**
 
-Keras also allows for callback functions to be used at each step of the training process. You can use callbacks to get a view on internal states and statistics of the model during training, or simply store the model to a directory.
+Keras also allows for callback functions to be used at each step of the training process. You can use callbacks to get a view on internal states and statistics of the model during training, or simply store the model in a directory.
 
-It is extremely usefull and highly recommended to used the `ModelCheckpoint()` function when training models. This will save your model (or just the weights) at the end of each epoch in an HDF5 file.
+It is extremely useful and highly recommended to used the `ModelCheckpoint()` function when training models. This will save your model (or just the weights) at the end of each epoch in an HDF5 file.
 
 An example:
 ```
@@ -241,15 +239,15 @@ Other useful callbacks:
 
 ### Using data generators
 
-Python by itself provides a built-in generator method; `yield` when running code in functions. This replaces `return` and allows to preserve the sequence of execution even after the function's lifetime, providing the result(s) to the caller without destroying local variables.
+Python by itself provides a built-in generator method `yield` when running code in functions. This replaces `return` and allows to preserve the sequence of execution even after the function's lifetime, providing the result(s) to the caller without destroying local variables.
 
 As `yield` is used in Python generators it would be nice to further study the notion of generator functions:
 
 The main idea behind a data generator is to calculate a series or results iteratively (i.e. a list in which an operation is performed element-wise). However, in contrast to lists, generators have no length.
 
-We use generators because modern computer vision datasets are significantly large and cannot always fit into RAM memory. Insead, by using generators, values are calculated on-the-fly without requiring to store any of the previous values.
+We use generators because modern computer vision datasets are very large and cannot always fit into RAM memory. Insead, by using generators, values are calculated on-the-fly without requiring to store any of the previous values.
 
-So as a last task in this lab, you are called to create a `DataGenerator` function which you should also submit in your upcoming deadline and make use of the `load_images` function.
+So as a last task in this lab, you are requested to create a `DataGenerator` function  and make use of the `load_images`. You should submit this as Assignment 4.
 
 ```
 def DataGenerator(img_addrs, img_labels, batch_size, num_classes):

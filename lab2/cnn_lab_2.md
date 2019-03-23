@@ -18,7 +18,7 @@ This practical does assume that you have successfully completed the *Introductio
 
 ### Building CNNs with Keras
 
-As we saw in the previous session, the starting point for creating a model is defying the shape of the input. In this case instead of using a vector as our data, the input will be batches of images. This means that the `Input` layer should be initialised with the same dimensions as the images. This can be done by setting the `shape` parameter of the function to 48x48x3. Start by opening `cnn.py`.
+As we saw in the previous session, the starting point for creating a model is defining the shape of the input. In this case instead of using a vector as our data, the input will be batches of images. This means that the `Input` layer should be initialised with the same dimensions as the images. This can be done by setting the `shape` parameter of the function to 48x48x3. Start by opening `cnn.py`.
 
 ### Convolutional layers
 
@@ -32,10 +32,10 @@ This creates a convolution kernel that convolves the inputs to produce a tensor 
 
 * **filters**: Should be an integer that is the number of kernels to be used. This will also correspond to the depth of the activation maps produced.
 * **kernel_size**: Could be an integer or a tuple and defines the dimensions of the convolutional kernel. If you want to use kernels of unequal dimensions `(i.e. kernel_width != kernel_height)` then the shape should be defined as a tuple.
-* **strides**: Similarly the stride number can be an int/tuple if you would like to change the rate with which regions are convolved.
+* **strides**: Similarly, the stride number can be an int/tuple if you would like to change the rate with which regions are convolved.
 * **padding**: This specifies the zero padding to be done in order to keep or reduce the dimensionality of the output (compared to the input). It can take either of two values: `"valid"` if no padding is to be added or `"same"` to preserve the dimensions.
 
-It should be noted that there is an option to adjust the way convolutions are performed based on the input shape. For example if the colour channels are the first dimension in the input (e.g. 3x48x48) then you can adjust the **data_format** argument in the function with the `"channels_first"` value. - keep in mind that TensorFlow uses `"channels_last"` by default.
+It should be noted that there is an option to adjust the way convolutions are performed based on the input shape. For example, if the colour channels are the first dimension in the input (e.g. 3x48x48) then you can adjust the **data_format** argument in the function with the `"channels_first"` value. - keep in mind that TensorFlow uses `"channels_last"` by default.
 
 The output of the function is a 4D tensor of shape `(batch_size, width, height, filters)`
 
@@ -83,7 +83,7 @@ B) That the network trains much faster now.
 
 C) That you should now have better test results.
 
-Experiment by adding more Convolutions and occasionally adding Pooling operations keeping the number of parameters sensible and below the initial network (545,730). You can also add 1x1 Convolutions in order to incrase your network depth.
+Experiment by adding more Convolutions and occasionally adding Pooling operations keeping the number of parameters sensible and below those of initial network (545730). You can also add 1x1 Convolutions in order to increase your network depth.
 
 ### Global Pooling vs Flattening
 
@@ -93,7 +93,7 @@ A special case of pooling is Global Pooling in which all the dimensions are aver
 x = GlobalAvgPool2D()(x)
 ```
 
-Another way of decreasing a tensor to a vector is to use a `Flatten` layer. In contrast to `GlobalPool`, this operation simply does a transformation of the data meaning that the output is simply all the features stacked to a single vector. For example:
+Another way of vectorising inputs is to use a `Flatten` layer. In contrast to `GlobalPool`, this operation simply does a transformation of the data meaning that the output is simply all the features stacked to a single vector. For example:
 
 ```
 inputs = Input(shape=(48,48,3))
@@ -107,18 +107,18 @@ x = Flatten()(x)
 
 It is recommended, in order to optimise the usage of your network parameters to have a CNN architecture that at the very last layers uses very (spatially) small activation maps (e.g. 4x4xfilters) and uses a `GlobalPooling` method for converting tensors to vectors.
 
-This means that the same amount of extracted features are represented more robustly as Flatten can create a large number of parameters and computational overhead (think abou this at your own time and if it is unclear, do ask the session coordinator).
+This means that the same amount of extracted features are represented more robustly as Flatten can create a large number of parameters and computational overhead (think about this at your own time).
 
 Replace the `Flatten()` layer in the network with a `GlobalAvgPool2D` layer and record the observed differences.
 
 ### Custom layers
 
 As of the new version of Keras (2.0) when creating a custom layer, only three methods need to be implemented:
-* `build(input_shape)`: Which is used to define any layer weights and should at the end set the `build` parameter of the layer to `True`. This can be done by calling `super([Layer], self).build()`.
+* `build(input_shape)`: Which is used to define any layer weights and at the end of the definition, it should set the `build` parameter of the layer to `True`. This can be done by calling `super([Layer], self).build()`.
 * `call(x)`: The main logic and the overall functions of the layer should be written within this function. The passed argument should be the input tensor.
 * `compute_output_shape(input_shape)`: This is used in the cases where the layer does indeed modify the dimensions of the input (e.g. as done in pooling or convolutions). The way the shape is transformed should be declared here.
 
-Open the `layers.py` file. Based on the ShakeShake paper, we will attempt to create a much simpler version of the regularisation that does not include residual connections.
+Open the `layers.py` file. Based on the ShakeShake paper [[arxiv link]](https://arxiv.org/pdf/1705.07485.pdf) we will attempt to create a much simpler version of the regularisation that does not include residual connections.
 
 Have a look at the class named `ShakeShake` and try to understand what each function does based on the requirements described.
 
@@ -147,7 +147,7 @@ Once completing the required lines of code add an instance of the ShakeShake lay
 
 ### Creating custom callbacks
 
-Open the file `lr_callbacks.py`. As you will see, you can create a custom callback function by extending the base class `callbacks.Callback`. The base class has access to model's properties through `self.model`. The fist task will be to log the internal state of the model at the end of each epoch.
+Open the file `lr_callbacks.py`. As you will see, you can create a custom callback function by extending the base class `callbacks.Callback`. The base class has access to the model's properties through `self.model`. The fist task will be to log the internal state of the model at the end of each epoch.
 
 Start with the `InternalStateHistory` class:
 ```

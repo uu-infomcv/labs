@@ -103,9 +103,11 @@ class Step_decay(Callback):
       # [1] Initialise the class variables:
       # - min_lr
       # - max_lr
+      # - lr (which sould be initialised to the max_lr)
       # - total_iterations (steps_per_epoch * epochs)
       # - iteration (your counter)
-      # - decrease which should be the (integer) value of the absolute difference between the max_lr - min_lr devided by the num_steps
+      # - history (learning rate and iterations logger)
+      # - decrease which should be the absolute difference between the max_lr - min_lr devided by the num_steps
 
       temp = int(self.total_iterations // num_steps)
 
@@ -125,7 +127,7 @@ class Step_decay(Callback):
 
       index = self.steps_pos.index(self.iteration) + 1
 
-      # [2] return the max_lr minus the decrease times your iteration index
+      # [2] return the lr multiplied by the decrease.
       return
 
     """

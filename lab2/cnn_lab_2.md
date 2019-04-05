@@ -181,6 +181,7 @@ The last task in this session will be to create a custom learning rate that decr
 
 ```
 class Step_decay(Callback):
+
     def __init__(self, min_lr=1e-6, max_lr=0.1, num_steps=5, steps_per_epoch=None, epochs=None):
 
       super().__init__()
@@ -188,9 +189,11 @@ class Step_decay(Callback):
       # [1] Initialise the class variables:
       # - min_lr
       # - max_lr
+      # - lr (which sould be initialised to the max_lr)
       # - total_iterations (steps_per_epoch * epochs)
       # - iteration (your counter)
-      # - decrease which should be the (integer) value of the absolute difference between the max_lr - min_lr devided by the num_steps
+      # - history (learning rate and iterations logger)
+      # - decrease which should be the absolute difference between the max_lr - min_lr devided by the num_steps
 
       temp = int(self.total_iterations // num_steps)
 
@@ -203,12 +206,13 @@ class Step_decay(Callback):
 
       index = self.steps_pos.index(self.iteration) + 1
 
-      # [2] return the max_lr minus the decrease times your iteration index
+      # [2] return the lr multiplied by the decrease.
       return
 
     def on_train_begin(self, logs=None):
       logs = logs or {}
       K.set_value(self.model.optimizer.lr, self.max_lr)
+
 
     def on_batch_end(self, epoch, logs=None):
 
@@ -224,6 +228,7 @@ class Step_decay(Callback):
 
         if (self.iteration in self.steps_pos):
             K.set_value(self.model.optimizer.lr, self.calculate_new_lr())
+
 
 ```
 Once finished, use the Step_decay with your model.

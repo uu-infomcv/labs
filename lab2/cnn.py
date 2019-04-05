@@ -20,6 +20,12 @@ nb_classes = 2
 nb_epoch = 30
 bn_axis = 3
 
+# Function for viewing (any) changes in the learning rate at every epoch
+def get_lr_metric(optimizer):
+    def lr(y_true,y_pred):
+        return optimizer.lr
+    return lr
+
 def paths_list_from_directory(directory):
 
     # Code goes here
@@ -94,10 +100,11 @@ predictions = Dense(nb_classes, activation='softmax')(x)
 model = Model(input=inputs, output=predictions)
 
 sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+lr_metric = get_lr_metric(sgd)
 
 model.compile(optimizer=sgd,
               loss='categorical_crossentropy',
-              metrics=['accuracy'])
+              metrics=['accuracy',lr_metric])
 
 #model.summary()
 
